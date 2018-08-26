@@ -134,12 +134,27 @@ Page({
       let params = activeIndex == 0 ? params_A : params_B;
       Http.Get(url, params, App.globalData.jwtStr).then(res=>{
         if(res.code==='200'){
-          if(res.data.list.length>0){
+          if (res.data.list.length > 0){
             res.data.list.map(order=>{
-              order.logs.length > 0 && order.logs.map(time=>{
-                time.operation === '待接单' ? order.createTime = PublicFun._timeStyle(time.operateDate, 'A') : ''
-                order.serverType === '洗车' ? order.appointmentTime = PublicFun._timeStyle(time.operateDate, 'A') : ''
-              })
+              let creatTime = 
+                order.serverType === '洗车' ? 
+                  order.logs.filter(
+                    list => list.operation === '已服务'):
+                  order.logs.filter(
+                    list => list.operation ==='待接单');
+              order.createTime =  PublicFun._timeStyle(creatTime[0].operateDate, 'A') ;
+              order.reserve = order.serverType === '洗车' ?
+                '服务日期：' : '预约日期：';
+              order.appointmentTime = 
+                order.serverType === '洗车' ?
+                PublicFun._timeStyle(creatTime[0].operateDate, '') : PublicFun._timeStyle(order.appointmentTime, '');
+              order.register = 
+                order.serverType === '洗车' ? '卡券：' : 
+                order.serverType === '钣喷' ? '漆面个数：' : '车辆初登日期：';
+              order.registerDeatil = 
+                order.serverType === '洗车' ? order.cards[0]&&order.cards[0].cardName:
+                order.serverType === '钣喷' ? order.serverTime : 
+                  order.firstRegisterDate && PublicFun._timeStyle(order.firstRegisterDate,'');
             })
           }
           resolve(res)
@@ -165,9 +180,9 @@ Page({
         hasNextPage: res.data.hasNextPage,
         currentPage: res.data.nextPage,
       })
-      wx.stopPullDownRefresh()
+      wx.stopPullDownRefresh();
     }).catch(() => {
-      wx.stopPullDownRefresh()
+      wx.stopPullDownRefresh();
       PublicFun._showToast('网络错误！');
     })
     !hasNextPage && PublicFun._showToast('已加载全部');

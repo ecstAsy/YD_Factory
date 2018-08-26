@@ -10,7 +10,8 @@ Page({
       { id: 3, title: "车牌号", detail: "" },
       { id: 4, title: "漆面个数", detail: "" },
       { id: 5, title: "使用卡券", detail: "" },
-      { id: 6, title: "客户备注", detail: "" }
+      { id: 6, title: "地址", detail: "" },
+      { id: 7, title: "客户备注", detail: "" }
     ],
     Image: '',
     ServiceTxt: '接单',
@@ -109,7 +110,12 @@ Page({
         }else{
           orderInfo[3].detail = orderDetail.serverTime || '';
         }
-        orderInfo[5].detail = orderDetail.remark || '无';
+        orderInfo[6].detail = orderDetail.remark || '无';
+        if (orderDetail.serverType === '年检'){
+          orderInfo[5].detail = orderInfo.address
+        }else{
+          orderInfo[5].detail = '无地址'
+        }
         that.setData({
           orderInfo: orderInfo,
           orderData: orderDetail,

@@ -1,4 +1,5 @@
  @import '../../template/login/login.wxss';
+  @import '../../template/scan/scan.wxss';
 .login_box{
   width: 100%;
   height: 100%;

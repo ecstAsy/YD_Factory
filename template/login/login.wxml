@@ -6,7 +6,8 @@
               placeholder-class='inputClass'
               type='text' name="account" 
               bindinput='LoginInput'
-              data-id="account"/>
+              data-id="account"
+              value='{{User.account}}'/>
       </view>
       <view class='login_info_list'>
         <text>密码</text>
@@ -14,7 +15,8 @@
               placeholder-class='inputClass'
               password type='text' name="password" 
               bindinput='LoginInput'
-              data-id="password"/>
+              data-id="password"
+              value='{{User.password}}'/>
       </view>
       <button class='login_info_btn {{canUse?"active":""}}' 
               lang="zh_CN" bindgetuserinfo="onGotUserInfo"

@@ -10,8 +10,11 @@ Page({
     canUse: false,
     User: { account: "", password: "" },
     LoginShow: true,
-    Menu: [{ id: 1, title: '洗车券消码', img: '/images/saoma.png' },
-      { id: 2, title: '服务订单', img: '/images/order.png'}]
+    Scan: { ScanShow:false,imgShow:true,text:''},
+    MenuArry: [{ id: 1, title: '洗车券消码', img: '/images/saoma.png' },
+    { id: 2, title: '服务订单', img: '/images/order.png' },
+    { id: 3, title: '退出登陆', img: '/images/quick.png' }],
+    Menu:[]
   },
   onLoad(options) {
     let that = this;
@@ -19,6 +22,9 @@ Page({
   },
   
   chooseMenu(e) {
+    let that = this,
+        Scan = that.data.Scan,
+        User = that.data.User;
     let _id = e.currentTarget.dataset.id;
     if (_id === 1) {
       PublicFun._showScanCode().then(res => { 
@@ -29,24 +35,31 @@ Page({
             facilitatorId: App.globalData.facilitatorId
           }
         Http.Get(code_url, code_params, App.globalData.jwtStr).then(res => {
+          Scan.ScanShow = true;
           if (res.code == 200) {
-            wx.navigateTo({
-              url: `../scan/scan?wash=true`,
-            })
-          } else if (res.code == 100) {
-            wx.navigateTo({
-              url: `../scan/scan?wash=false&message=${res.message}`,
-            })
-          } else {
-            PublicFun._showToast('网络错误！')
+            Scan.imgShow = true;
+          }else{
+            Scan.imgShow = false;
+            Scan.text = res.message
           }
+          that.setData({
+            Scan:Scan
+          })
         })
       }).catch(() => {
         console.log('关闭扫码！')
       })
-    } else {
+    } else if (_id === 2) {
       wx.navigateTo({
         url: '../order/order',
+      })
+    } else if (_id === 3){
+      User.account = App.globalData.facilitatorInfo.account;
+      User.password = App.globalData.facilitatorInfo.password;
+      that.setData({
+        LoginShow:true,
+        User: User,
+        canUse:true
       })
     }
   },
@@ -79,7 +92,7 @@ Page({
         }
       Http.Get(url, params, App.globalData.jwtStr).then(res => {
         if (res.code === '200') {
-          that.checkFacilitator(res.data, App.globalData.jwtStr)
+          res.data && that.checkFacilitator(res.data, App.globalData.jwtStr)
           App.globalData.facilitatorId = res.data || null;
           that.setData({
             LoginShow: false
@@ -127,7 +140,7 @@ Page({
           code_params = { userId: "", code: res.code, wechatWay: 'ydbpsh' };
         Http.Get(code_url, code_params, '').then(res => {
           if (res.code === '200') {
-            that.checkFacilitator(res.data.facilitatorId, res.data.jwtStr)
+             res.data.facilitatorId && that.checkFacilitator(res.data.facilitatorId, res.data.jwtStr)
             App.globalData.userId = res.data.userId || null;
             App.globalData.jwtStr = res.data.jwtStr || null;
             App.globalData.roleType = res.data.roleType || null;
@@ -165,21 +178,34 @@ Page({
   },
   checkFacilitator(facilitatorId, jwtStr){
     let that = this,
-        Menu = that.data.Menu;
+        MenuArry = that.data.MenuArry,
+        Menu ;
     let fac_url = 'providers',
         fac_params = { id: facilitatorId };
     Http.Get(fac_url, fac_params, jwtStr).then(res => {
       if(res.code==='200'){
         let CategoryList = res.data.list[0].categoryList;
         if (CategoryList.indexOf('洗车') === -1){
-          Menu = Menu.filter(list => list.title !== '洗车券消码')
+          Menu = MenuArry.filter(list => list.title !== '洗车券消码')
+        }else{
+          Menu = MenuArry
         }
+        App.globalData.facilitatorInfo.account = res.data.list[0].username;
+        App.globalData.facilitatorInfo.password = res.data.list[0].password;
         this.setData({ Menu: Menu})
       }else{
         PublicFun._showToast('网络错误！');
       }
     }).catch(()=>{
       PublicFun._showToast('网络错误！');
+    })
+  },
+  ScanCodeOperate() {
+    let that = this,
+      Scan = that.data.Scan;
+    Scan.ScanShow = false;
+    that.setData({
+      Scan: Scan
     })
   }
 })

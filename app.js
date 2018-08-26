@@ -54,6 +54,7 @@ App({
     userOpenId: null,
     roleType:null,
     facilitatorId:null,
+    facilitatorInfo:{account:'',password:''},
     systemInfo: { Width: "", Height: "", screenHeight: "" }
   }
 })

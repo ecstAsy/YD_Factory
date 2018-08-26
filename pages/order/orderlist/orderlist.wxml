@@ -9,7 +9,7 @@
 
   <view class='order_info'>
     <block wx:for="{{orderInfo}}" wx:for-item="info" wx:key="{{info.id}}">
-      <view class='order_info_list'>
+      <view class='order_info_list' wx:if="{{info.detail!=='无地址'}}">
         <text>{{info.title}}：</text>
         <text class='{{info.id==2?"active":""}}' data-id="{{info.id==2?info.detail:''}}" bindtap='{{info.id==2?"contactKehu":""}}'>{{info.detail}}</text>
       </view>

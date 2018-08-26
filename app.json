@@ -1,7 +1,6 @@
 {
   "pages":[
     "pages/menu/menu",
-    "pages/scan/scan",
     "pages/order/order",
     "pages/order/orderlist/orderlist",
     "pages/order/upImage/upImage"

@@ -20,7 +20,6 @@ Page({
     let that = this;
     that._getUserInfo();
   },
-  
   chooseMenu(e) {
     let that = this,
         Scan = that.data.Scan,

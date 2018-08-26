@@ -1,0 +1,13 @@
+<import src="../../template/login/login.wxml" />
+<view class="menu">
+<block wx:for="{{Menu}}" wx:for-item="menu" wx:key="index">
+<view class='menu_list' data-id="{{menu.id}}" bindtap='chooseMenu'>
+      <image src='{{menu.img}}'/>
+      <text>{{menu.title}}</text>  
+   </view>
+</block>
+</view>
+<view class='login_box' wx:if="{{LoginShow}}">
+  <template is="Login" data="{{canUse}}" />
+</view>
+

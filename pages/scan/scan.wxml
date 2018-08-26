@@ -1,0 +1,12 @@
+<view class="scan">
+   <image src="{{WashShow.ImgShow?'/images/sao_true.png':'/images/sao_false.png'}}"/>
+   <text class='scan_resoult'>{{WashShow.ToastShow}}</text>
+   <view class='scan_toast' wx:if="{{WashShow.ImgShow}}">
+      <text>客户在您的门店成功消费一张洗车券</text>
+      <text>您可在《服务订单》查看</text>
+   </view>
+   <view class='scan_toast'  wx:if="{{!WashShow.ImgShow}}">
+      <text>{{WashShow.TxtShow}}</text>
+   </view>
+   <button class='scan_btn' bindtap='ScanCodeOperate'>确定</button>
+</view>

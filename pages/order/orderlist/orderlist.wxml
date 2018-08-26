@@ -1,0 +1,74 @@
+<view id='j_page'>
+
+  <view class="order_header">
+    <text>订单信息</text>
+    <text>订单号：{{orderData.orderNo}}</text>
+  </view>
+
+
+
+  <view class='order_info'>
+    <block wx:for="{{orderInfo}}" wx:for-item="info" wx:key="{{info.id}}">
+      <view class='order_info_list'>
+        <text>{{info.title}}：</text>
+        <text class='{{info.id==2?"active":""}}' data-id="{{info.id==2?info.detail:''}}" bindtap='{{info.id==2?"contactKehu":""}}'>{{info.detail}}</text>
+      </view>
+    </block>
+  </view>
+  <view class='order_step'>
+    <text>订单进度</text>
+  </view>
+
+
+  <view class='order_slider'>
+    <view class='order_slider_list'>
+      <button class='toast will'>接单</button>
+      <text class='list'>下单时间：{{orderData.Logs['待接单']}}</text>
+      <text class='status' wx:if="{{orderData.orderStatus=='待接单'}}">待接单</text>
+      <text class='status' wx:if="{{orderData.orderStatus!='待接单'}}">已接单</text>
+    </view>
+    <view class='line' wx:if="{{orderData.orderStatus=='待服务'?true:orderData.orderStatus=='服务中'?true:orderData.orderStatus=='已服务'?true:false}}"></view>
+    <view class='order_slider_list' style='position:relative;padding-bottom:80rpx;' wx:if="{{orderData.orderStatus=='待服务'?true:orderData.orderStatus=='服务中'?true:orderData.orderStatus=='已服务'?true:false}}">
+      <view class='list_line' wx:if="{{orderData.orderStatus=='已服务'}}"></view>
+      <button class='toast willdo'>服务中</button>
+      <text class='list' wx:if="{{orderData.orderStatus=='待服务'?true:orderData.orderStatus=='服务中'?true:orderData.orderStatus=='已服务'?true:false}}">预约时间：{{orderData.appointmentTime}}</text>
+      <text class='list two' wx:if="{{orderData.orderStatus=='已服务'?true:orderData.orderStatus=='服务中'?true:false}}">到店时间：{{orderData.Logs['服务中']}}</text>
+      <text class='status' wx:if="{{orderData.orderStatus=='待服务'}}">待服务</text>
+      <text class='status active' wx:if="{{orderData.orderStatus=='已服务'?true:orderData.orderStatus=='服务中'?true:false}}">开始服务</text>
+      <view class='upImage' bindtap='UpImage' data-status="bad" wx:if="{{orderData.orderStatus=='已服务'?true:orderData.orderStatus=='服务中'?true:false}}">
+        <image src='/images/add.png' />
+        <text wx:if="{{Image.StartImage.length==0}}">上传图片</text>
+        <text wx:if="{{Image.StartImage.length!=0}}">编辑图片</text>
+        <text>{{orderData.serverType==='年检'?'（年检前）':'（受损面）'}}</text>
+      </view>
+      <view class='upImage_content' wx:if="{{orderData.orderStatus=='已服务'?true:orderData.orderStatus=='服务中'?true:false}}">
+        <block wx:for="{{Image.StartImage}}" wx:for-item="img" wx:key="index">
+          <image src='{{img}}' data-flag="A" data-id="{{index}}" bindtap='LookImage' />
+        </block>
+      </view>
+    </view>
+    <view class='order_slider_list' wx:if="{{orderData.orderStatus=='已服务'}}">
+      <button class='toast done'>已服务</button>
+      <text class='list'>完成时间：{{orderData.Logs['已服务']}}</text>
+      <text class='status'>结束服务</text>
+      <view class='upImage' bindtap='UpImage' wx:if="{{orderData.orderStatus=='已服务'?true:orderData.orderStatus=='服务中'?true:false}}" data-status="good">
+        <image src='/images/add.png' />
+        <text wx:if="{{Image.EndImage.length==0}}">上传图片</text>
+        <text wx:if="{{Image.EndImage.length!=0}}">编辑图片</text>
+        <text>{{orderData.serverType==='年检'?'（年检后）':'（修复面）'}}</text>
+      </view>
+      <view class='upImage_content' wx:if="{{orderData.orderStatus=='已服务'?true:orderData.orderStatus=='服务中'?true:false}}">
+        <block wx:for="{{Image.EndImage}}" wx:for-item="img" wx:key="index">
+          <image src='{{img}}' data-flag="B" data-id="{{index}}" bindtap='LookImage' />
+        </block>
+      </view>
+    </view>
+    <!-- <view class='time_line' style='height:130rpx'></view> -->
+    <!-- <view class='time_line' style="height:{{orderData.orderStatus=='待服务'?'130':orderData.orderStatus=='服务中'?'130':orderData.orderStatus=='已服务'&&Image.StartImage.length==0?'420':orderData.orderStatus=='已服务'&&Image.StartImage.length<4?'510':orderData.orderStatus=='已服务'&&Image.StartImage.length>3?'630':'0'}}rpx"></view> -->
+  </view>
+</view>
+
+<button wx:if="{{orderData.orderStatus!='已服务'}}" data-flag="{{orderData.orderStatus}}" class='servicebtn {{orderData.orderStatus=="待接单"?"will":orderData.orderStatus=="待服务"?"willdo":orderData.orderStatus=="服务中"?"done":""}}' bindtap='handleService'>{{ServiceTxt}}</button>
+
+<import src="../../../template/loading/loading.wxml" />
+<template is="loading" data="{{Loading}}" />

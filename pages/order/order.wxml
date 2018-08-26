@@ -1,0 +1,23 @@
+<import src="../../template/order/order.wxml" />
+<view class="weui-navbar">
+  <block wx:for-items="{{Tabs}}" wx:key="{{index}}">
+    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="TabClick">
+      <view class="weui-navbar__title">{{item}}</view>
+    </view>
+  </block>
+  <view class="weui-navbar__slider order_slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+</view>
+
+
+<view class="weui-tab__panel">
+  <view class="weui-tab__content">
+    <block wx:for="{{OrderLists}}" wx:for-item="order" wx:key="{{index}}">
+      <template is="Order" data="{{order}}" />
+    </block>
+  </view>
+</view>
+<view class='NoOrderToast_box' wx:if="{{OrderLists.length==0&&!Loading}}">
+   <view class='NoOrderToast'>暂无订单</view>
+</view>
+<import src="../../template/loading/loading.wxml"/>
+<template is="loading" data="{{Loading}}"/>

@@ -1,0 +1,34 @@
+ @import '../../template/login/login.wxss';
+.login_box{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0; 
+  left: 0;
+  background: rgba(255, 255, 255, 1);
+}
+.menu{
+  width: 88%;
+  margin: 0 auto;
+}
+.menu_list{
+  font-size: 24rpx;
+  color: #333;
+  width: 25%;
+  display: inline-block;
+  margin-top: 50rpx;
+  text-align: center;
+}
+.menu_list image{
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 45rpx;
+  display: block;
+  margin: 0 auto;
+}
+.menu_list text{
+  display: block;
+  margin-top: 20rpx;
+}
+
+

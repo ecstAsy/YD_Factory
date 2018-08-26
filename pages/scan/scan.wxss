@@ -1,0 +1,47 @@
+.scan{
+  width: 90%;
+  margin:0 auto;
+  margin-top: 110rpx;
+}
+image{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 100rpx;
+  display: block;
+  margin: 0 auto;
+}
+.scan_resoult{
+  display: block;
+  margin: 40rpx 0 60rpx;
+  font-size: 40rpx;
+  color: #333;
+  width: 100%;
+  text-align: center;
+}
+.scan_toast{
+  width: 100%;
+  text-align: center;
+  font-size: 28rpx;
+  color: #939ba4;
+  margin-bottom: 80rpx;
+}
+.scan_toast text{
+  display: block;
+}
+.scan_btn{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #fff;
+  font-size: 32rpx;
+  background: linear-gradient(to right,#ff8b00 0,#ffaa57 100%);
+  border-radius: 40rpx;
+  outline: medium;
+  border:none;
+  box-shadow: 0rpx 10rpx 12rpx rgba(255,170,87, .35);
+}
+.scan_btn::after{
+  border-radius: 40rpx;
+  outline: medium;
+  border:none;
+}

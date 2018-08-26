@@ -1,0 +1,28 @@
+var nameShow = function(order){
+  var res = { reserve:'预约日期：',register:'',detail:''};
+  if (order.serverType ==='钣喷'){
+    res.register = '漆面个数：';
+    res.detail = order.serverTime;
+  } else if (order.serverType === '年检'){
+    res.register = '车辆初登日期：';
+    res.detail = timeStyle(order.firstRegisterDate);
+  }else{
+    res.register = '卡券：';
+    res.reserve = '服务日期：';
+    res.detail = order.cards[0].cardName;
+  }
+  return res
+}
+var timeStyle = function(time){
+  var Time = ''
+  if(time){
+    Time = time.substring(0, 4) + "." + time.substring(4, 6) + "." + time.substring(6, 8);
+  }else{
+    Time = '';
+  }
+  return Time
+}
+module.exports = {
+  nameShow: nameShow,
+  timeStyle: timeStyle
+}

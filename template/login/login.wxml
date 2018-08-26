@@ -1,0 +1,23 @@
+<template name="Login">
+  <view class="login">
+      <view class='login_info_list'>
+        <text>账号</text>
+        <input placeholder='请输入关联门店管理员账号'
+              placeholder-class='inputClass'
+              type='text' name="account" 
+              bindinput='LoginInput'
+              data-id="account"/>
+      </view>
+      <view class='login_info_list'>
+        <text>密码</text>
+        <input placeholder='请输入您的密码'
+              placeholder-class='inputClass'
+              password type='text' name="password" 
+              bindinput='LoginInput'
+              data-id="password"/>
+      </view>
+      <button class='login_info_btn {{canUse?"active":""}}' 
+              lang="zh_CN" bindgetuserinfo="onGotUserInfo"
+              open-type='getUserInfo'>登录</button>
+  </view>
+</template>

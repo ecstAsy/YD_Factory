@@ -1,0 +1,24 @@
+
+<template name="Order">
+<wxs src='order.wxs' module='Show'/>
+   <view class='order_list' style='height:{{order.serverType=="洗车"?"210":""}}rpx' data-id="{{order.orderId}}" bindtap='{{order.serverType!="洗车"?"lookOrderDetail":""}}'>
+      <view class='order_list_title'>
+        <text class='{{order.serverType=="洗车"?"active":""}}'>{{order.serverType}}</text>
+        <text>{{order.createTime}}</text>
+      </view>
+      <view class='order_list_user' wx:if="{{order.serverType!='洗车'}}">
+        <text class='name'>{{order.linkMan}}</text>
+        <text>{{order.plate}}</text>
+        <text>{{order.phone}}</text>
+      </view>
+      <view class='order_list_reserve_time'>
+        <text>{{Show.nameShow(order).reserve}}</text>
+        <text>{{Show.timeStyle(order.appointmentTime)}}</text>
+      </view>
+      <view class='order_list_reserve_num'>
+      <text>{{Show.nameShow(order).register}}</text>
+        <text>{{Show.nameShow(order).detail}}</text>
+      </view>
+      <text class='order_list_status {{order.orderStatus=="待接单"?"will":order.orderStatus=="待服务"?"willdo":order.orderStatus=="服务中"?"doing":"done"}} '>{{order.orderStatus}}</text>
+    </view>
+</template>

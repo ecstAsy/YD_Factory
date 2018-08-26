@@ -1,0 +1,27 @@
+<view class="upImage_title">
+   <view class='line'></view>
+   <view class='upImage_title_txt'>
+     <text class='txt'>{{upImgTitle}}</text>
+     <text class='upnum'>(<text class='num'>{{Image.length}}</text>/6)</text>
+   </view>
+</view>
+
+<view class='upImage_content'>
+  <block wx:for="{{Image}}" wx:for-item="img" wx:key="index">
+  <view class='upImage_list {{index==1?"active":index==4?"active":""}}' style='width:{{systemInfo.Width*0.26}}px;height:{{systemInfo.Width*0.26}}px;margin-top:20rpx;'>
+      <image class='img' src='{{img}}'/>
+      <image data-id="{{index}}" 
+             class='close_flag' 
+             src='/images/close.png'
+             bindtap='deleteImage'/>
+  </view>
+  </block>
+  <view class='upImage_list {{Image.length==1?"active":Image.length==4?"active":""}}' 
+        wx:if="{{Image.length<6}}"
+        bindtap='UpImage'
+        style='width:{{systemInfo.Width*0.26}}px;height:{{systemInfo.Width*0.26}}px;margin-top:20rpx;'>
+      <image class='img' src='/images/upimage.png'/>
+  </view>
+</view>
+
+<button class='save_btn' bindtap='SaveImage'>保存</button>

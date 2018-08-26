@@ -1,0 +1,71 @@
+.upImage_title{
+  width: 100%;
+  margin-top: 40rpx;
+  margin-bottom: 30rpx;
+}
+.line{
+  display: inline-block;
+  width: 6rpx;
+  height: 26rpx;
+  background: #ff8b00;
+  vertical-align: middle;
+  margin-left: 30rpx;
+}
+.upImage_title_txt{
+  display: inline-block;
+  margin-left: 8rpx;
+}
+.upImage_title_txt .txt{
+  font-size: 28rpx;
+  color: #333;
+}
+.upImage_title_txt .upnum{
+  font-size: 22rpx;
+  margin-left: 8rpx;
+  color: #939ba4;
+}
+.upImage_title_txt .upnum .num{
+  color: #ff8b00;
+}
+.upImage_content{
+  width: 88%;
+  margin: 0 auto;
+}
+.upImage_list.active{
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.upImage_list{
+  position: relative;
+  display: inline-block;
+}
+.upImage_list .img{
+  width: 100%;
+  height: 100%;
+}
+.close_flag{
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  right: 0;
+  top: 0;
+}
+.save_btn{
+  width: 92%;
+  height: 80rpx;
+  margin: 0 auto;
+  line-height: 80rpx;
+  color: #fff;
+  font-size: 32rpx;
+  background: linear-gradient(to right,#ff8b00 0,#ffaa57 100%);
+  border-radius: 40rpx;
+  outline: medium;
+  border:none;
+  box-shadow: 0rpx 10rpx 12rpx rgba(255,170,87, .35);
+  margin-top: 160rpx;
+}
+.save_btn::after{
+  border-radius: 40rpx;
+  outline: medium;
+  border:none;
+}

@@ -1,12 +1,21 @@
 .loading_box {
-  width: 100%;
-  text-align: center;
-  padding: 100rpx 0;
   position: fixed;
-  top: 30%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  padding: 100rpx 0;
 }
 
-.loading_box>view {
+.loading {
+  width: 100%;
+  text-align: center;
+  margin-top: 40%;
+}
+
+.loading>view {
   display: inline-block;
 }
 

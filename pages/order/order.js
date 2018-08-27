@@ -20,22 +20,7 @@ Page({
     that.setData({
       sliderLeft: (systemInfo.Width / that.data.Tabs.length - systemInfo.Width*0.05) /2
     });
-    let Order = {
-      Status: activeIndex,
-      currentPage: that.data.currentPage
-    }
-    that._getOrderList().then(res=>{
-      that.data.currentPage == 1 && res.data.list.length == 0 ? PublicFun._showToast('暂无订单！'):'';
-      that.setData({
-        OrderLists:res.data.list,
-        currentPage: res.data.nextPage,
-        hasNextPage : res.data.hasNextPage,
-        Loading:false
-      })
-    }).catch(()=>{
-      that.setData({ Loading: false });
-      PublicFun._showToast('网络错误！');
-    });
+    
     wx.connectSocket({
       url: `wss://www.caryoud.com/youdianyangche/websocket/${App.globalData.facilitatorId}`,
     });
@@ -54,6 +39,27 @@ Page({
       })
     })
   }, 
+  onShow(){
+    let that = this,
+        activeIndex = that.data.activeIndex,
+        OrderLists = that.data.OrderLists;
+        that.setData({
+          Loading: true
+        })
+    that._getOrderList(activeIndex,1).then(res => {
+      console.log(res)
+      that.data.currentPage == 1 && res.data.list.length == 0 ? PublicFun._showToast('暂无订单！') : '';
+      that.setData({
+        OrderLists: res.data.list,
+        currentPage: res.data.nextPage,
+        hasNextPage: res.data.hasNextPage,
+        Loading: false
+      })
+    }).catch(() => {
+      that.setData({ Loading: false });
+      PublicFun._showToast('网络错误！');
+    });
+  },
   TabClick: function (e) {
     let that = this,
         Tabs = that.data.Tabs,
@@ -66,7 +72,7 @@ Page({
       OrderLists:[],
       Loading: true
     });
-    that._getOrderList().then(res=>{
+    that._getOrderList(tab.id, 1).then(res=>{
       that.data.currentPage == 1 && res.data.list.length == 0 ? PublicFun._showToast('暂无订单！') : '';
       that.setData({
         OrderLists: res.data.list,
@@ -98,7 +104,7 @@ Page({
         that.setData({
           Loading: true
         })
-    hasNextPage && that._getOrderList().then(res=>{
+    hasNextPage && that._getOrderList(activeIndex, currentPage).then(res=>{
       that.setData({
         OrderLists:  [...OrderLists, ...res.data.list] ,
         hasNextPage: res.data.hasNextPage,
@@ -114,21 +120,20 @@ Page({
     !hasNextPage && PublicFun._showToast('已加载全部');
     !hasNextPage && that.setData({Loading: false});
   },
-  _getOrderList(){
+  _getOrderList(activeIndex, currentPage){
     let that = this,
-      activeIndex = that.data.activeIndex,
       Tabs = that.data.Tabs;
     let promise = new Promise(function (resolve, reject) {
       let params_A = {
         storeId: App.globalData.facilitatorId,
         pageSize: 10,
-        currentPage:that.data.currentPage
+        currentPage:currentPage
         };
       let params_B = {
         storeId: App.globalData.facilitatorId, 
         orderStatus:Tabs[activeIndex],
         pageSize: 10,
-        currentPage:that.data.currentPage
+        currentPage:currentPage
         };
       let url = `orders`;
       let params = activeIndex == 0 ? params_A : params_B;
@@ -174,7 +179,7 @@ Page({
       Tabs = that.data.Tabs,
       activeIndex = that.data.activeIndex,
       OrderLists = that.data.OrderLists;
-    hasNextPage && that._getOrderList().then(res => {
+    hasNextPage && that._getOrderList(activeIndex, currentPage).then(res => {
       that.setData({
         OrderLists: [...res.data.list,...OrderLists],
         hasNextPage: res.data.hasNextPage,

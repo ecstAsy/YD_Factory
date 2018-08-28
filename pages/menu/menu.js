@@ -21,13 +21,10 @@ Page({
     that._getUserInfo();
   },
   chooseMenu(e) {
-    let that = this,
-        Scan = that.data.Scan,
-        User = that.data.User,
-      Menu = that.data.Menu;
+    let that = this;
+    let { Scan, User, Menu } = that.data;
     let _id = e.currentTarget.dataset.id;
     if (_id === 1) {
-      
       PublicFun._showScanCode().then(res => { 
         let code_url = 'orders/useXcCard',
           code_params = {
@@ -68,7 +65,7 @@ Page({
   },
   onGotUserInfo(e) {
     let that = this,
-      data = e.detail.userInfo;
+        data = e.detail.userInfo;
     if (App.globalData.userId) {
       that._RelevanceLogin(App.globalData.userId)
     } else {
@@ -84,8 +81,7 @@ Page({
   },
   _RelevanceLogin(userId) {
     let that = this,
-      User = that.data.User,
-      canUse = that.data.canUse;
+        { User, canUse } = that.data;
     if (canUse) {
       let url = `userContactFacilitator`,
         params = {
@@ -143,7 +139,7 @@ Page({
           code_params = { userId: "", code: res.code, wechatWay: 'ydbpsh' };
         Http.Get(code_url, code_params, '').then(res => {
           if (res.code === '200') {
-             res.data.facilitatorId && that.checkFacilitator(res.data.facilitatorId, res.data.jwtStr)
+             res.data.facilitatorId && that.checkFacilitator(res.data.facilitatorId, res.data.jwtStr);
             App.globalData.userId = res.data.userId || null;
             App.globalData.jwtStr = res.data.jwtStr || null;
             App.globalData.roleType = res.data.roleType || null;

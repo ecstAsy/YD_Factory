@@ -5,8 +5,8 @@ function _showScanCode() {
       success: res => {
         resolve(res)
       },
-      fail:()=>{
-        reject(false)
+      fail:res =>{
+        reject(res)
       }
     })
   });

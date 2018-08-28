@@ -23,9 +23,11 @@ Page({
   chooseMenu(e) {
     let that = this,
         Scan = that.data.Scan,
-        User = that.data.User;
+        User = that.data.User,
+      Menu = that.data.Menu;
     let _id = e.currentTarget.dataset.id;
     if (_id === 1) {
+      
       PublicFun._showScanCode().then(res => { 
         let code_url = 'orders/useXcCard',
           code_params = {
@@ -37,16 +39,18 @@ Page({
           Scan.ScanShow = true;
           if (res.code == 200) {
             Scan.imgShow = true;
-          }else{
+          } else {
             Scan.imgShow = false;
             Scan.text = res.message
           }
           that.setData({
-            Scan:Scan
+            Scan: Scan
           })
+        }).catch(res => {
+          PublicFun._showToast('网络错误！');
         })
-      }).catch(() => {
-        console.log('关闭扫码！')
+      }).catch(res => {
+        PublicFun._showToast('您已关闭扫码！');
       })
     } else if (_id === 2) {
       wx.navigateTo({

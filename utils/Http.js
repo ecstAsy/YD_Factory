@@ -1,6 +1,5 @@
-const API_URL = "https://www.caryoud.com/youdianyangche/"
 //const API_URL = "http://192.168.1.115:8080/"
-//const API_URL = "http://192.168.1.161:8081/"
+const API_URL = "http://192.168.1.161:8081/"
 function Get(url, params, jwtStr) {
   let promise = new Promise(function (resolve, reject) {
     wx.request({
